@@ -1,9 +1,17 @@
 package com.prueba.bcnc.inditex.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.Data;
+import lombok.Generated;
 
+@Data
+@Generated
 @Entity
 public class Album {
 
@@ -14,29 +22,7 @@ public class Album {
 	private Long userId;
 	@Column
 	private String title;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	@OneToMany(mappedBy = "albumId", cascade = CascadeType.ALL)
+	private List<Photo> photos;
 
 }

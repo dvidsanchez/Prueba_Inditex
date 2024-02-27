@@ -2,40 +2,27 @@ package com.prueba.bcnc.inditex.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prueba.bcnc.inditex.dto.PhotoAlbumDto;
-import com.prueba.bcnc.inditex.service.AlbumService;
 import com.prueba.bcnc.inditex.service.AlbumsPhotosService;
-import com.prueba.bcnc.inditex.service.PhotoService;
-import com.prueba.bcnc.inditex.utils.ApiConnection;
 
 @RestController
 @RequestMapping("/api")
 public class PruebaInditexController {
 
-	ApiConnection httpConnection;
-	PhotoService photoService;
-	AlbumService albumService;
-	AlbumsPhotosService albumsPhotosService;
+	private AlbumsPhotosService albumsPhotosService;
 
-	public PruebaInditexController(ApiConnection httpConnection, PhotoService photoService, AlbumService albumService,
-			AlbumsPhotosService albumsPhotosService) {
-		this.httpConnection = httpConnection;
-		this.photoService = photoService;
-		this.albumService = albumService;
+	public PruebaInditexController(AlbumsPhotosService albumsPhotosService) {
 		this.albumsPhotosService = albumsPhotosService;
 	}
 
 	@GetMapping("/save_data")
-	public ResponseEntity<Object> saveToH2() {
-		albumService.getAlbumFromApiAndSave();
-		photoService.getPhotoFromApiAndSave();
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<List<PhotoAlbumDto>> saveToH2() {
+		return ResponseEntity.ok(albumsPhotosService.saveDataOnDB());
 	}
 
 	@GetMapping("/api_data")

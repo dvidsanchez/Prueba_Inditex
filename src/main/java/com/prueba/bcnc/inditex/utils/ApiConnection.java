@@ -2,6 +2,7 @@ package com.prueba.bcnc.inditex.utils;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,9 @@ import com.prueba.bcnc.inditex.dto.AlbumDto;
 import com.prueba.bcnc.inditex.dto.PhotoDto;
 import com.prueba.bcnc.inditex.exception.PruebaInditexException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ApiConnection {
 
@@ -33,7 +37,8 @@ public class ApiConnection {
 			return objectMapper.readValue(response.getBody(), new TypeReference<List<AlbumDto>>() {
 			});
 		} catch (JsonProcessingException e) {
-			throw new PruebaInditexException(e.getMessage());
+			log.error("Se ha producido un error en la conversión de la cadena JSON de albumes", e);
+			throw new PruebaInditexException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -44,7 +49,8 @@ public class ApiConnection {
 			return objectMapper.readValue(response.getBody(), new TypeReference<List<PhotoDto>>() {
 			});
 		} catch (JsonProcessingException e) {
-			throw new PruebaInditexException(e.getMessage());
+			log.error("Se ha producido un error en la conversión de la cadena JSON de photos", e);
+			throw new PruebaInditexException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

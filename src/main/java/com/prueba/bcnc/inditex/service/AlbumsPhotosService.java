@@ -9,4 +9,6 @@ public interface AlbumsPhotosService {
 	public List<PhotoAlbumDto> getDataFromApi();
 
 	public List<PhotoAlbumDto> getDataFromDB();
+
+	public List<PhotoAlbumDto> saveDataOnDB();
 }

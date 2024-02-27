@@ -66,7 +66,6 @@ class AlbumsPhotosServiceTest {
 	@Test
 	void getDataFromDB_Test_OK() {
 		when(albumService.getAlbums()).thenReturn(getAlbumList());
-		when(photoService.getPhotos()).thenReturn(getPhotoList());
 		List<PhotoAlbumDto> response = albumsPhotoService.getDataFromDB();
 		assertEquals(1, response.size());
 		assertEquals("titulo", response.get(0).getTitle());
@@ -84,8 +83,7 @@ class AlbumsPhotosServiceTest {
 
 	@Test
 	void getDataFromDB_Test_Error_2() {
-		when(albumService.getAlbums()).thenReturn(getAlbumList());
-		when(photoService.getPhotos()).thenReturn(new ArrayList<>());
+		when(albumService.getAlbums()).thenReturn(new ArrayList<>());
 		assertThrows(PruebaInditexException.class, () -> {
 			albumsPhotoService.getDataFromDB();
 		});
@@ -97,6 +95,7 @@ class AlbumsPhotosServiceTest {
 		album.setId(1L);
 		album.setTitle("titulo");
 		album.setUserId(1L);
+		album.setPhotos(getPhotoList());
 		albumList.add(album);
 		return albumList;
 	}

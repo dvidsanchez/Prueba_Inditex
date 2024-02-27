@@ -1,33 +1,22 @@
 package com.prueba.bcnc.inditex.dto;
 
-public class AlbumDto {
+import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
+import lombok.Generated;
+
+@Data
+@Generated
+public class AlbumDto implements Serializable {
+
+	private static final long serialVersionUID = 525410751195649159L;
+	@JsonProperty("id")
 	private Long id;
+	@JsonProperty("userId")
 	private Long userId;
+	@JsonProperty("title")
 	private String title;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 }
