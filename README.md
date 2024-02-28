@@ -5,9 +5,9 @@
 El presente documento detalla las tecnologías, arquitectura y decisiones tomadas para el desarrollo de la prueba de BCNC para Inditex. En ella se pide realizar una aplicación con un microservicio
 basado en Spring Boot que exponga 3 endpoints. Dichos endpoints tienen la siguiente funcionalidad:
 
-	- Obtener datos desde un API y almacenarlos en una base de datos integrada.
-	- Obtener datos desde un API y devolverlos en la respuesta.
-	- Obtener datos desde la base de datos y devolverlos en la respuesta.
+- Obtener datos desde un API y almacenarlos en una base de datos integrada.
+- Obtener datos desde un API y devolverlos en la respuesta.
+- Obtener datos desde la base de datos y devolverlos en la respuesta.
 	
 En los siguientes apartados se explica con más detalle los pasos seguidos para la realización de la prueba, así como los casos de ejemplo y comandos para poder ejecutar los test del proyecto.
 
@@ -21,12 +21,9 @@ incluidas con Spring Boot Test junto con Jacoco para generar el informe de cober
 
 2.2.- Arquitectura.
 
-Se ha optado por una arquitectura hexagonal por capas que, además de aportar escalabilidad al proyecto, permite que cada capa de la aplicación tenga una funcionalidad determinada y que se acople
-a contratos en lugar de acoplarse a implementaciones concretas. Todo esto permite que se puedan realizar modificaciones en las distintas capas sin que esto afecte al resto de la aplicación.
+Se ha optado por una arquitectura MVC que, además de aportar escalabilidad al proyecto, permite que cada capa de la aplicación tenga una funcionalidad determinada y aporta claridad y sencillez 
+en la organización de la aplicación. Todo esto permite que se puedan realizar modificaciones en las distintas capas sin que esto afecte al resto de la aplicación.
 También permite que se puedan utilizar frameworks o tecnologías diferentes sin que esto afecte al resto de la aplicación.
-
-En cuanto a la estructura de carpetas escogida, se podría hacer subdivisiones en función de los caso de uso para facilitar la búsqueda de clases e interfaces una vez el proyecto fuese tomando cierta embergadura, 
-en este caso no se ha realizado así por tener únicamente un caso de uso y ser para una prueba en concreto.
 
 2.3.- Desarrollo del código fuente.
 
@@ -42,19 +39,22 @@ del álbum. Dado que no se iba a acceder a este desde más de un hilo se ha cons
 Se ha incluido un control de errores común a toda la aplicación, que intercepta cualquier excepción producida en la aplicación y devuelve una respuesta adecuada con una descripción del error. Evitando que se muestren
 trazas de error con código en la respuesta HTTP.
 
+Posteriormente se ha añadido la librería de lombok, que permite generar automáticamente código en la compilación como pueden ser los getter y setter, constructores, etc. También se ha incluido la librería mapStruct 
+para generar mappers y realizar la conversión entre entidades y DTO.
+
 3.- Pruebas
 
 3.1- Ejecución de los test.
 
 Para la ejecución de los test se debe de realizar el siguiente comando estando situado en la carpeta del proyect, siendo necesario tener Apache Maven configurado en el equipo. 
 
-	- mvn test
+	 mvn test
 	
 3.2- Reporte de cobertura.
 
 Tras ejecutar el comando anterior se podrá obtener el reporte de cobertura. Para ello habrá que ejecutar el siguiente comando desde la carpeta del proyecto.
 
-	- java -jar jacococli.jar report target\jacoco.exec --sourcefiles src\main\java --classfiles target\classes --html .
+	 java -jar jacococli.jar report target\jacoco.exec --sourcefiles src\main\java --classfiles target\classes --html .
 	
 Nota: Se ha incluido el jar necesario para su ejecución en la carpeta del proyecto.
 
@@ -64,19 +64,23 @@ La ejecución del comando anterior generará un informe en Html que podrá ser c
 
 Como ya se comentó al principio del documento, la prueba consta de tres endpoints. A continuación, se indica el path de cada uno de los endpoints y el tipo de petición a realizar.
 
-	-Obtención de datos desde el API y almacenado en base de datos: 
-			- GET -> /api/save_data
-			- Posibles respuestas: 
-				- 204 No Content en caso de realizarse con éxito.
-				- 500 Internal Server Error en caso de producirse algún error.
-	- Obtención de datos desde el API y exposición en la respuesta: 
-			- GET -> /api/api_data
-			- Posibles respuestas: 
-				- 200 OK en caso de realizarse con éxito.
-				- 500 Internal Server Error en caso de producirse algún error.
-	- Obtención de datos desde la base de datos y exposición en la respuesta: 
-			- GET -> /api/db_data
-			- Posibles respuestas: 
-				- 200 OK en caso de realizarse con éxito.
-				- 500 Internal Server Error en caso de producirse algún error.
-				
+- Obtención de datos desde el API y almacenado en base de datos: 
+  - GET -> /api/save_data
+  - Posibles respuestas:
+    - 204 No Content en caso de realizarse con éxito.
+    - 500 Internal Server Error en caso de producirse algún error.
+- Obtención de datos desde el API y exposición en la respuesta:
+  - GET -> /api/api_data
+  - Posibles respuestas: 
+    - 200 OK en caso de realizarse con éxito.
+    - 500 Internal Server Error en caso de producirse algún error.
+- Obtención de datos desde la base de datos y exposición en la respuesta: 
+  - GET -> /api/db_data
+  - Posibles respuestas: 
+    - 200 OK en caso de realizarse con éxito.
+    - 500 Internal Server Error en caso de producirse algún error.
+    - 404 Not Found En caso de que no se haya alimentado la Base de Datos.
+
+Para iniciar la aplicación se puede ejecutar el siguiente comando desde el directorio de la aplicación:
+
+	 mvn spring-boot:run
