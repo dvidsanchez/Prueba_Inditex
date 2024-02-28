@@ -64,7 +64,7 @@ La ejecución del comando anterior generará un informe en Html que podrá ser c
 
 Como ya se comentó al principio del documento, la prueba consta de tres endpoints. A continuación, se indica el path de cada uno de los endpoints y el tipo de petición a realizar.
 
-	- Obtención de datos desde el API y almacenado en base de datos: 
+	-Obtención de datos desde el API y almacenado en base de datos: 
 			- GET -> /api/save_data
 			- Posibles respuestas: 
 				- 204 No Content en caso de realizarse con éxito.
@@ -80,6 +80,3 @@ Como ya se comentó al principio del documento, la prueba consta de tres endpoin
 				- 200 OK en caso de realizarse con éxito.
 				- 500 Internal Server Error en caso de producirse algún error.
 				
-3.4- Repositorio GIT
-
-El proyecto se puede encontrar en el siguiente repositorio: https://github.com/dvidsanchez/Prueba_Inditex.git
