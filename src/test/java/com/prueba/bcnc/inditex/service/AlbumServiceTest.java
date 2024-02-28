@@ -17,16 +17,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.prueba.bcnc.inditex.exception.PruebaInditexException;
 import com.prueba.bcnc.inditex.model.Album;
 import com.prueba.bcnc.inditex.repository.AlbumRepository;
-import com.prueba.bcnc.inditex.utils.ApiConnection;
 
 @SpringBootTest
 class AlbumServiceTest {
 
 	@MockBean
 	AlbumRepository albumRepository;
-
-	@MockBean
-	ApiConnection apiConnection;
 
 	@Autowired
 	AlbumService albumService;

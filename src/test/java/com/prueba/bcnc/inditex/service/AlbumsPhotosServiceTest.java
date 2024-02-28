@@ -1,7 +1,10 @@
 package com.prueba.bcnc.inditex.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.util.CollectionUtils;
 
 import com.prueba.bcnc.inditex.dto.AlbumDto;
 import com.prueba.bcnc.inditex.dto.PhotoAlbumDto;
@@ -87,6 +91,19 @@ class AlbumsPhotosServiceTest {
 		assertThrows(PruebaInditexException.class, () -> {
 			albumsPhotoService.getDataFromDB();
 		});
+	}
+
+	@Test
+	void saveAndGetData_Test_OK() {
+		when(apiConnection.albumsRequest()).thenReturn(getAlbumDtoList());
+		when(apiConnection.photosRequest()).thenReturn(getPhotoDtoList());
+		doNothing().when(albumService).saveAlbums(anyList());
+
+		List<PhotoAlbumDto> resultList = albumsPhotoService.saveDataOnDB();
+
+		assertFalse(CollectionUtils.isEmpty(resultList));
+		assertFalse(CollectionUtils.isEmpty(resultList.get(0).getPhotos()));
+		assertEquals(resultList.get(0).getId(), resultList.get(0).getPhotos().get(0).getAlbumId());
 	}
 
 	private List<Album> getAlbumList() {

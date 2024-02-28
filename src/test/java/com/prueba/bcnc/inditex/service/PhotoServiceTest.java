@@ -17,16 +17,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.prueba.bcnc.inditex.exception.PruebaInditexException;
 import com.prueba.bcnc.inditex.model.Photo;
 import com.prueba.bcnc.inditex.repository.PhotoRepository;
-import com.prueba.bcnc.inditex.utils.ApiConnection;
 
 @SpringBootTest
 class PhotoServiceTest {
 
 	@MockBean
 	PhotoRepository photoRepository;
-
-	@MockBean
-	ApiConnection apiConnection;
 
 	@Autowired
 	PhotoService photoService;

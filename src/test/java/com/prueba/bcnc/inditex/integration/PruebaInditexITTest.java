@@ -61,9 +61,19 @@ class PruebaInditexITTest {
 
 	@Test
 	void saveToH2_Test_OK() throws Exception {
-		this.mockMvc.perform(get("/api/save_data")).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$[0].photos").isArray()).andExpect(jsonPath("$[0].id").exists())
-				.andExpect(jsonPath("$[0].photos").isNotEmpty()).andExpect(jsonPath("$[0].photos[0].albumId").exists());
+		MvcResult response = this.mockMvc.perform(get("/api/save_data")).andExpect(status().isOk())
+				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].photos").isArray())
+				.andExpect(jsonPath("$[0].id").exists()).andExpect(jsonPath("$[0].photos").isNotEmpty())
+				.andExpect(jsonPath("$[0].photos[0].albumId").exists()).andReturn();
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<PhotoAlbumDto> resultList = objectMapper.readValue(response.getResponse().getContentAsString(),
+				new TypeReference<List<PhotoAlbumDto>>() {
+				});
+
+		assertFalse(CollectionUtils.isEmpty(resultList));
+		assertFalse(CollectionUtils.isEmpty(resultList.get(0).getPhotos()));
+		assertEquals(resultList.get(0).getId(), resultList.get(0).getPhotos().get(0).getAlbumId());
 	}
 
 	@Test
